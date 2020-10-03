@@ -1,0 +1,11 @@
+# Results for the run conducted on 03 Oct 2020, 11:00:43 
+
+# main constraints and optimisations
+- valid matching constraints added
+- optimisation: maximising size
+
+# solver status
+pulp_status: Infeasible
+
+
+solver completed

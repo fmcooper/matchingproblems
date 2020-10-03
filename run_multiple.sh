@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables.
-PREPATH="../../../Desktop/Evaluations/"		# Location of your results.
+PREPATH="./Evaluations/"			# Location of your results.
 PARALLEL_OPTS="--jobs 3 --bar"		# Changes the number of parallel jobs running.
 
 
@@ -20,7 +20,7 @@ runSolver() {
 
 export -f runSolver
 
-NUMINSTANCES=1000
+NUMINSTANCES=5
 
 # HR instances.
 INSTANCES_DIR_HR="${PREPATH}hr/instances"

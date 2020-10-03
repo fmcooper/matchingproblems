@@ -1,4 +1,4 @@
 # __init__.py
 
-from .generator import create
+from .generator import Generator
 

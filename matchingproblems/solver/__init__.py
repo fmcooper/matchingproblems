@@ -1,3 +1,3 @@
 # __init__.py
 
-from .solver import create
+from .solver import Solver
