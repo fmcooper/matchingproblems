@@ -1,4 +1,5 @@
-# Results for the run conducted on 02 Oct 2020, 17:13:45 
+Instance_options.NUMAGENTS
+# Results for the run conducted on 03 Oct 2020, 09:46:54 
 
 # main constraints and optimisations
 - valid matching constraints added
@@ -9,18 +10,18 @@
 pulp_status: Optimal
 
 # timings
-time_model_creation_seconds: 0.009475
-time_solve_seconds: 0.207599
-time_total_seconds: 0.217074
+time_model_creation_seconds: 0.00588
+time_solve_seconds: 0.152249
+time_total_seconds: 0.158129
 
 # matching statistics
-matching: 1 8 2 4 7 3
-cost: 8
-cost_sq: 12
-degree: 2
-profile: < 4 2 0 0 0 >
+matching: 2 6 4 3 1 7
+cost: 9
+cost_sq: 17
+degree: 3
+profile: < 4 1 1 0 0 >
 max_lec_abs_diff: 1
-sum_lec_abs_diff: 4
+sum_lec_abs_diff: 2
 
 
 solver completed

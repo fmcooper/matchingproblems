@@ -1,9 +1,0 @@
-# Results for the run conducted on 02 Oct 2020, 17:22:39 
-
-# timings
-time_model_creation_seconds: 0.001997
-time_solve_seconds: 7.139246
-time_total_seconds: 7.141243
-
-Infeasible
-solver completed

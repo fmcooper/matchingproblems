@@ -50,12 +50,20 @@ class LP_Solver:
             self.optimisation_options)
         
 
-    def run(self, msg, timeLimit, threads):
+    def run(self, msg, timeLimit, threads, write):
         """Run the solver.
 
+        Args:
+          msg: Pulp indicator as to whether the solver should output info.
+          timeLimit: Pulp time limit for optimisations (note this will be for 
+            each individual optimisation, exceeding the overall time limit will
+            be dealt with in another part of the program).
+          threads: Pulp variable for the number of threads to use when solving.
+          write: Indicates whether the model should be written to file.
+
         Return:
-            The most recent Pulp solver status (either Optimal, or the first non
-            Optimal status).
+          The most recent Pulp solver status (either Optimal, or the first non
+           Optimal status).
         """
 
         self.info_string = ''
@@ -75,7 +83,8 @@ class LP_Solver:
             self.prob.solve(self.solver)
 
         self.model.info_string = self.info_string
-        self.prob.writeLP('model.lp')
+        if write:
+            self.prob.writeLP('model.lp')
         return LpStatus[self.prob.status] 
 
     

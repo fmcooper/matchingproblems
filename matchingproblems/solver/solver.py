@@ -17,15 +17,15 @@ The Solver class defines the API for users to access the IP solver.
 def create(filename):
         return Solver(filename)
 
-""" The Matcher controller API class.
+""" The Solver controller API class.
 
-    The Matcher class defines the API for users to access the IP solver.
+    The Solver class defines the API for users to access the IP solver.
     """
 
 class Solver:
 
     def __init__(self, args):
-        '''Constructs a Matcher controller.
+        '''Constructs a Solver controller.
 
         Args: 
             args: Command line options.
@@ -40,12 +40,24 @@ class Solver:
         self.model.time_start = time_start
 
         
-    def solve(self, msg=False, timeLimit=None, threads=None):
-        '''Solves the SPA-STL instance.'''
+    def solve(self, msg=False, timeLimit=None, threads=None, write=False):
+        '''Solves the SPA-STL instance.
+
+        Args:
+          msg: Pulp indicator as to whether the solver should output info.
+          timeLimit: Pulp time limit for optimisations (note this will be for 
+            each individual optimisation, exceeding the overall time limit will
+            be dealt with in another part of the program).
+          threads: Pulp variable for the number of threads to use when solving.
+          write: Indicates whether the model should be written to file.
+        '''
+
+        # Brute force method.
         if self.options_parser.solver_options[Solver_options.BRUTEFORCE]:
             self.solver = Brute_force_solver(
                 self.options_parser.instance_options,
                 self.model)
+        # Pulp LP solver method.
         else:
             self.solver = LP_Solver(
                 self.model,
@@ -61,7 +73,7 @@ class Solver:
         if self.options_parser.solver_options[Solver_options.BRUTEFORCE]:
             pulp_status = self.solver.run()
         else:
-            pulp_status = self.solver.run(msg, timeLimit, threads)
+            pulp_status = self.solver.run(msg, timeLimit, threads, write)
             self.model.pulp_status = pulp_status
 
         time_after_solve = datetime.datetime.now()

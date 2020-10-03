@@ -1,9 +1,21 @@
-# Results for the run conducted on 02 Oct 2020, 17:23:12 
+Instance_options.NUMAGENTS
+# Results for the run conducted on 03 Oct 2020, 09:47:21 
 
 # timings
-time_model_creation_seconds: 0.003476
-time_solve_seconds: 6.70818
-time_total_seconds: 6.711656
+time_model_creation_seconds: 0.002929
+time_solve_seconds: 4.805112
+time_total_seconds: 4.808041
 
-Infeasible
+# optimal matching statistics
+optimal_size: 6
+optimal_maxsizemincost: 8
+optimal_maxsizemindegree: 2
+optimal_maxsizeminsqcost: 12
+optimal_generousmaxprofile: < 4 2 0 0 0 >
+optimal_greedymaxprofile: < 5 0 0 1 0 >
+optimal_greedyprofile: < 5 0 0 1 0 >
+optimal_max_lec_abs_diff: 1
+optimal_sum_lec_abs_diff: 2
+
+
 solver completed

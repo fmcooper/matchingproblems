@@ -2,6 +2,7 @@ import argparse
 from argparse import RawTextHelpFormatter
 from .enums import *
 
+"""Options parser for solving matching instances."""
 
 class Options_parser:
     def _create_arg_parser(self):
@@ -217,7 +218,13 @@ class Options_parser:
 
     def _stability_requirements_check(
         self, parser, instance_options, extra_constraints):
-        """Checks that stability requirements are met."""
+        """Checks that stability requirements are met.
+
+        Args:
+          parser: The argument parser.
+          instance_options: User chosen instance options.
+          extra_constraints: User chosen extra constraint options.
+        """
         if (extra_constraints[Extra_constraints.STAB] and 
             not instance_options[Instance_options.TWOPL]):
             parser.error('must have two sided preference lists when choosing '
