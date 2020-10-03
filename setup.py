@@ -1,9 +1,9 @@
-from setuptools import setup
+from setuptools import find_packages, setup
 
 setup(
 	name='matchingproblems',
     version='0.1',
-    packages=['matchingproblems'],
+    packages=find_packages(),
     license='MIT',
     description='A matching problem generator and solver.',
     long_description=open('README.md').read(),
