@@ -1,0 +1,27 @@
+# Results for the run conducted on 02 Oct 2020, 17:26:58 
+
+# main constraints and optimisations
+- valid matching constraints added
+- stability constraints added
+
+# solver status
+pulp_status: Optimal
+
+# timings
+time_model_creation_seconds: 0.005974
+time_solve_seconds: 0.060867
+time_total_seconds: 0.066841
+
+stability_correct: True
+
+# matching statistics
+matching: 5 1 6 3 8 0
+cost: 8
+cost_sq: 16
+degree: 3
+profile: < 3 1 1 0 >
+max_lec_abs_diff: 1
+sum_lec_abs_diff: 1
+
+
+solver completed

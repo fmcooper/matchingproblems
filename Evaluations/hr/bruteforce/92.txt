@@ -1,0 +1,20 @@
+# Results for the run conducted on 02 Oct 2020, 17:12:16 
+
+# timings
+time_model_creation_seconds: 0.005135
+time_solve_seconds: 0.691398
+time_total_seconds: 0.696533
+
+# optimal matching statistics
+optimal_size: 6
+optimal_maxsizemincost: 11
+optimal_maxsizemindegree: 3
+optimal_maxsizeminsqcost: 25
+optimal_generousmaxprofile: < 3 1 2 0 >
+optimal_greedymaxprofile: < 3 1 2 0 >
+optimal_greedyprofile: < 3 1 2 0 >
+optimal_max_lec_abs_diff: 0
+optimal_sum_lec_abs_diff: 0
+
+
+solver completed
