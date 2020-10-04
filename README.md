@@ -141,7 +141,6 @@ Argument | Meaning
 `-gen x, -generous x` | Performs generous optimisation at the given optimisation position.
 `-gre x, -greedy x` | Performs greedy optimisation at the given optimisation position.
 `-mincost x, -minimisecost x` | Minimise cost at the given optimisation position.
-`-minsqcost x, -minimisesquaredcost x` | Minimises sum of squares of costs at the given optimisation position.
 `-lmb x, -loadmaxbalanced x` | Minimises the maximum absolute difference between lecturer occupancy and target at the given optimisation position.
 `-lsb x, -loadsumbalanced x` | Minimises the sum of absolute differences between lecturer occupancies and targets at the given optimisation position.
 `-bf, -bruteforce` | Solve using the brute force method.
