@@ -14,12 +14,6 @@ class Options_parser:
         parser = argparse.ArgumentParser(
             description='Solves matching problem instances.',
             formatter_class=RawTextHelpFormatter)
-        # nice output
-        parser.add_argument(
-            '-nice',
-            '-niceoutput', 
-            action='store_true',
-            help=('nice output flag'))
         # filename
         parser.add_argument(
             '-f',
@@ -43,7 +37,7 @@ class Options_parser:
             '-twosidedpreferencelists',
             action='store_true',
             dest='twopl',
-            help=('hospital (HR) or lecturer (SPA) preference lists present'))
+            help=('women (SM), hospital (HR) or lecturer (SPA) preference lists present'))
         # project closures
         parser.add_argument(
             '-pc',
