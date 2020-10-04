@@ -2,12 +2,12 @@ from setuptools import find_packages, setup
 
 setup(
 	name='matchingproblems',
-    version='0.1',
+    version='1.0',
     packages=find_packages(),
     license='MIT',
 
     description='A matching problem generator and solver.',
-    long_description=open('README.md').read(),
+    long_description_content_type=open('README.md').read(),
     
     url='http://github.com/fmcooper/matchingproblems',
     author='Frances Cooper',
