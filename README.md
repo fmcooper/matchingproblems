@@ -71,6 +71,16 @@ Argument | Meaning
 `-llq x, --lecturerlowerquotas x` | Sum of lower quotas for lecturers (SPA).
 `-lt x, --lecturertargets x` | Sum of targets for lecturers (SPA).
 `-luq x, --lecturerupperquotas x` | Sum of upper quotas for lecturers (SPA).
+
+HA instances require the following arguments to be specified: `-n1 -n2 -pmin -pmax -uq`
+
+SM instances require the following arguments to be specified: `-n1 -pmin -pmax -twopl`
+
+HR instances require the following arguments to be specified: `-n1 -n2 -pmin -pmax -uq -twopl`
+
+SPA instances require the following arguments to be specified: `-n1 -n2 -n3 -pmin -pmax -uq -luq`
+
+
     
 Two examples of calls to run_generator.py are as follows:
 ```
@@ -149,5 +159,3 @@ python run_solver.py -f ./path/to/instance.txt -na 3 -bf
 Unit tests may be run by executing the `test.sh` script in this [git repository](https://github.com/fmcooper/matchingproblems).
 
 Correctness testing which compared output from the LP Solver and brute force programs was conducted on some optimisations. Results for this testing can be seen at this [zenodo repository](10.5281/zenodo.4065148).
-
-
