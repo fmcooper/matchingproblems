@@ -2,6 +2,8 @@
 
 This python package can generate and solve single or multiple matching problem instances using the PuLP Linear Program (LP) Solver.
 
+See https://pypi.org/project/matchingproblems/ for more information.
+
 It can be used both for individual real-world runs (for example to assign students to projects at your university), and for experimental work including correctness testing of the LP using a brute force approach (smaller instances only).
 
 1) Installation
