@@ -176,7 +176,6 @@ class Instance_options_parser:
                 (args.maxpreflistlength, 'maxpreflistlength'),
                 (args.upperquotas, 'upperquotas'),
                 (args.lecturerupperquotas, 'lecturerupperquotas'),
-                (args.lecturertargets, 'lecturertargets'),
                 ])
 
         # Check that required parameters are present.

@@ -7,7 +7,8 @@ setup(
     license='MIT',
 
     description='A matching problem generator and solver.',
-    long_description_content_type=open('README.md').read(),
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     
     url='http://github.com/fmcooper/matchingproblems',
     author='Frances Cooper',
