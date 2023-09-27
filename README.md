@@ -112,7 +112,7 @@ if __name__ == "__main__":
     # print(solver.get_debug())
     # print(solver.get_results())
     # print(solver.get_results_short())
-    print(solver.get_results_long())
+    print(solver.get_results())
 ```
 
 
