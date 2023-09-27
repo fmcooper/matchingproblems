@@ -16,7 +16,7 @@ setup(
 
     python_requires='>=3.6',
     install_requires=[
-        'numpy==1.16.2',
-        'pulp==2.3'
+        'numpy==1.24.4',
+        'pulp==2.7.0'
     ]
 )
