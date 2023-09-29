@@ -149,13 +149,16 @@ Argument | Meaning
 
 Two examples of calls to run_solver.py are as follows:
 ```
-# Find a generous maximum matching in an HA, SM or HR instance.
-python run_solver.py -f ./path/to/instance.txt genmax -na 2 -maxsize 1 -gen 2 -twopl
+# Find a generous (for the first 2 ranks) maximum matching in an HA, SM or HR instance.
+python run_solver.py -f ./path/to/instance.txt -na 2 -maxsize 1 -gen 2 -twopl
 ```
+
 ```
 # Find optimal assignments for an SPA instance with one sided preference lists using a brute force approach.
 python run_solver.py -f ./path/to/instance.txt -na 3 -bf
-```       
+```
+
+To see more detailed results for an optimised (not brute force) run, use `print(solver.get_results_long())` rather than `print(solver.get_results())` in your solving script.
 
 
 ## 4) Testing details
