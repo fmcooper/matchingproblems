@@ -148,8 +148,11 @@ Argument | Meaning
 
 Experimental argument | Meaning
 --- | ---
+`-gen x y, -generous x y` | Performs generous optimisation at the given optimisation position x, from the max rank postition up to the yth position inclusive (default 1).
+`-gre x y, -greedy x y` | Performs greedy optimisation at the given optimisation position x, from the 1st position up to the yth position inclusive (default max rank).
 `-mincost x y z, -minimisecost x y z` | Minimise cost at the given optimisation position x. Multiply student costs by y prior to optimisation (default 1). Multiply lecturer costs by z prior to optimisation (default 0).
 `-minsqcost x y z, -minimisesquaredcost x y z` | Minimises sum of squares of costs at the given optimisation position x. Multiply student costs by y prior to optimisation (default 1). Multiply lecturer costs by z prior to optimisation (default 0).
+`-mincostlsb x y z, -minimisecostloadsumbalanced x y z` | Minimise cost and lecturer load vs target differences at the given optimisation position x. Multiply student costs by y prior to optimisation (default 1). Multiply lecturer load vs target differences by z prior to optimisation (default 1).
 
 
 Two examples of calls to run_solver.py are as follows:

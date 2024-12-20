@@ -69,18 +69,26 @@ class Options_parser:
             help=('minimise size at the given optimisation position'),
             type=int)
         # generous
+        # Takes a possible total of 2 arguments:
+        # 1) the optimisation position (required)
+        # 2) a rank to stop performing generous optimisations at (default 1)
         parser.add_argument(
             '-gen',
             '-generous', 
+            nargs='+',
             action='store',
             dest='gen',
             help=('performs generous optimisation at the given optimisation ' +
                 'position'),
             type=int)
         # greedy
+        # Takes a possible total of 2 arguments:
+        # 1) the optimisation position (required)
+        # 2) a rank to stop performing greedy optimisations at (default max rank)
         parser.add_argument(
             '-gre',
             '-greedy', 
+            nargs='+',
             action='store',
             dest='gre',
             help=('performs greedy optimisation at the given optimisation ' +
@@ -112,6 +120,20 @@ class Options_parser:
             dest='minsqcost',
             help=('minimises sum of squares of costs at the given ' +
                 'optimisation position'),
+            type=int)
+        # minimises cost with load sum balancing
+        # Takes a possible total of 3 arguments:
+        # 1) the optimisation position (required)
+        # 2) a constant to multiply student costs by (default 1)
+        # 3) a constant to multiply lecturer load vs target differences by (default 1)
+        parser.add_argument(
+            '-mincostlsb',
+            '-minimisecostloadsumbalanced',
+            nargs='+',
+            action='store',
+            dest='mincostlsb',
+            help=('minimise cost and lecturer load vs target differences at the ' +
+                'given optimisation postition'),
             type=int)
         # load max balanced
         parser.add_argument(
@@ -196,6 +218,7 @@ class Options_parser:
             (args.minsqcost, Optimisation_options.MINSQCOST), 
             (args.lmb, Optimisation_options.LOADMAXBAL), 
             (args.lsb, Optimisation_options.LOADSUMBAL), 
+            (args.mincostlsb, Optimisation_options.MINCOSTLSB),
             ]
 
 

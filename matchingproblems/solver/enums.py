@@ -17,6 +17,7 @@ class Optimisation_options(Enum):
     MINSQCOST = 6       # minimising sum of squares of ranks of matched students
     LOADMAXBAL = 7      # load max balancing for lecturers
     LOADSUMBAL = 8      # load sum balancing for lecturers
+    MINCOSTLSB = 9      # minimising student costs and lecturer load differences from targets
 
 class Optimisation_type(Enum):
     MAXIMISE = 1        # maximising the objective function

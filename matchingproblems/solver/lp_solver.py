@@ -109,9 +109,10 @@ class LP_Solver:
         # Add load balancing constraints if required.
         if any(x in optimisation_options[0] for x in [
             Optimisation_options.LOADMAXBAL, 
-            Optimisation_options.LOADSUMBAL]):
+            Optimisation_options.LOADSUMBAL,
+            Optimisation_options.MINCOSTLSB]):
+            print("adding lsb constraints")
             self.loadbalancing_constraints()
-
 
 
     def upper_lower_constraints(self, instance_options):
@@ -282,9 +283,9 @@ class LP_Solver:
             if opt == Optimisation_options.MINSIZE:
                 self.optimisation_minsize()
             if opt == Optimisation_options.GENEROUS:
-                self.optimisation_generous()
+                self.optimisation_generous(additional_arguments)
             if opt == Optimisation_options.GREEDY:
-                self.optimisation_greedy()
+                self.optimisation_greedy(additional_arguments)
             if opt == Optimisation_options.MINCOST:
                 self.optimisation_mincost(additional_arguments)
             if opt == Optimisation_options.MINSQCOST:
@@ -293,6 +294,8 @@ class LP_Solver:
                 self.optimisation_loadmaxbal()
             if opt == Optimisation_options.LOADSUMBAL:
                 self.optimisation_loadsumbal()
+            if opt == Optimisation_options.MINCOSTLSB:
+                self.optimisation_mincostlsb(additional_arguments)
 
             # Exit early if one of the optimisations is not solved.
             if not LpStatus[self.prob.status] == self.model.OPTIMAL_PULP_STATUS:
@@ -327,11 +330,12 @@ class LP_Solver:
         self.perform_optimisation(obj, Optimisation_type.MINIMISE)
 
 
-    def optimisation_generous(self):
+    def optimisation_generous(self, additional_arguments):
         '''Performs generous optimisation and adds constraints.'''
 
-        self.info_string += '- optimisation: generous\n'
-        for r in range(len(self.model.rank_lists),0,-1):
+        up_to_postition_inclusive = 1 if len(additional_arguments) < 1 else additional_arguments[0]
+        self.info_string += '- optimisation: generous up to position ' + str(up_to_postition_inclusive) + ' inclusive\n'
+        for r in range(len(self.model.rank_lists), max(0, up_to_postition_inclusive - 1), -1):
 
             obj = LpVariable(
                     "obj_generous_rank_" + str(r), 
@@ -343,11 +347,12 @@ class LP_Solver:
             self.perform_optimisation(obj, Optimisation_type.MINIMISE)
 
 
-    def optimisation_greedy(self):
+    def optimisation_greedy(self, additional_arguments):
         '''Performs greedy optimisation and adds constraints.'''
 
-        self.info_string += '- optimisation: greedy\n'
-        for r in range(1, len(self.model.rank_lists) + 1):
+        up_to_postition_inclusive = len(self.model.rank_lists) if len(additional_arguments) < 1 else additional_arguments[0]
+        self.info_string += '- optimisation: greedy up to position ' + str(up_to_postition_inclusive) + ' inclusive\n'
+        for r in range(1, min(up_to_postition_inclusive + 1, len(self.model.rank_lists) + 1)):
 
             obj = LpVariable(
                     "obj_greedy_rank_" + str(r), 
@@ -401,6 +406,30 @@ class LP_Solver:
             # May not exist in the case if single sided preference lists.
             if (hasattr(pair, 'rank_lecturer')):
               sum_costs_exp += pair.lp_var * pair.rank_lecturer**2 * lecturer_multiplier
+        self.prob += (sum_costs_exp == obj)
+        self.perform_optimisation(obj, Optimisation_type.MINIMISE)
+
+
+    def optimisation_mincostlsb(self, cost_multipliers):
+        '''Minimises student costs and lecturer load balancing and adds constraint.'''
+
+        student_multiplier = 1 if len(cost_multipliers) < 1 else cost_multipliers[0]
+        lecturer_multiplier = 1 if len(cost_multipliers) < 2 else cost_multipliers[1]
+        self.info_string += '- optimisation: minimising costs with lecturer load balancing\n'
+        obj = LpVariable(
+                "obj_mincostlsb",
+                lowBound = 0,
+                upBound = self.model.num_students * self.model.num_projects *
+                  student_multiplier + self.model.num_students *
+                  self.model.num_lecturers * lecturer_multiplier,
+                cat = "Integer")
+        sum_costs_exp = LpAffineExpression()
+        # Costs for students
+        for pair in list(chain.from_iterable(self.model.pairs)):
+            student_cost = pair.lp_var * pair.rank_student * student_multiplier
+            sum_costs_exp += student_cost
+        # Costs for lecturers (lecturer load vs target differences)
+        sum_costs_exp += lpSum(self.model.abs_lec_diff) * lecturer_multiplier
         self.prob += (sum_costs_exp == obj)
         self.perform_optimisation(obj, Optimisation_type.MINIMISE)
 
