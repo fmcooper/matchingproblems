@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
 	name='matchingproblems',
-    version='1.2',
+    version='1.3',
     packages=find_packages(),
     license='MIT',
 
@@ -14,7 +14,7 @@ setup(
     author='Frances Cooper',
     author_email='fmcooper234@gmail.com',
 
-    python_requires='>=3.9',
+    python_requires='>=3.12',
     install_requires=[
         'numpy==1.26.4',
         'pulp==2.9.0',
