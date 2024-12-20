@@ -87,17 +87,27 @@ class Options_parser:
                 'position'),
             type=int)
         # minimises cost
+        # Takes a possible total of 3 arguments:
+        # 1) the optimisation position (required)
+        # 2) a constant to multiply student costs by (default 1)
+        # 3) a constant to multiply lecturer costs by (default 0)
         parser.add_argument(
             '-mincost',
             '-minimisecost', 
+            nargs='+',
             action='store',
             dest='mincost',
             help=('minimise cost at the given optimisation position'),
             type=int)
         # minimises sum of costs squared
+        # Takes a possible total of 3 arguments:
+        # 1) the optimisation position (required)
+        # 2) a constant to multiply student costs by (default 1)
+        # 3) a constant to multiply lecturer costs by (default 0)
         parser.add_argument(
             '-minsqcost',
             '-minimisesquaredcost', 
+            nargs='+',
             action='store',
             dest='minsqcost',
             help=('minimises sum of squares of costs at the given ' +
@@ -198,10 +208,14 @@ class Options_parser:
 
         ordered_opts = len(opts) * [0]
         count = 0
-        for ordinal, opt in opts:
-            if not ordinal == None:
-                count += 1
-                ordered_opts[ordinal - 1] = opt
+        for arguments, opt in opts:
+            if arguments == None:
+                continue
+            count += 1
+            if isinstance(arguments, list):
+                ordered_opts[arguments[0] - 1] = (opt, arguments[1:])
+                continue
+            ordered_opts[arguments - 1] = (opt, None)
         temp = []
         for i in range(len(ordered_opts)):
             if not ordered_opts[i] == 0:
@@ -235,12 +249,13 @@ class Options_parser:
 
         # Raise an error if any of the user given optimisations orderings less  
         # than 1 or more than len(optimisations).
-        for ordering, opt in opts:
-            if not ordering == None:
-                if ordering < 1 or ordering > len(opts):
-                    parser.error('orderings for optimisations must be ' +
-                        'between 0 and ' + str(len(opts)))
-
+        for arguments, opt in opts:
+            if arguments == None:
+                continue
+            ordering = arguments[0] if isinstance(arguments, list) else arguments
+            if ordering < 1 or ordering > len(opts):
+                parser.error('orderings for optimisations must be ' +
+                    'between 0 and ' + str(len(opts)))
         ordered_opts, count = self._get_ordered_optimisations(opts)
 
         # Raise an error if there are repeated values in the optimisation 

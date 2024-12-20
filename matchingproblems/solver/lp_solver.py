@@ -1,4 +1,5 @@
 from .enums import *
+from itertools import chain
 
 from pulp import *
 
@@ -106,7 +107,7 @@ class LP_Solver:
             self.stability_constraints()
 
         # Add load balancing constraints if required.
-        if any(x in optimisation_options for x in [
+        if any(x in optimisation_options[0] for x in [
             Optimisation_options.LOADMAXBAL, 
             Optimisation_options.LOADSUMBAL]):
             self.loadbalancing_constraints()
@@ -275,7 +276,7 @@ class LP_Solver:
             optimisation_options: User chosen optimisation options.
         '''
 
-        for opt in optimisation_options:
+        for opt, additional_arguments in optimisation_options:
             if opt == Optimisation_options.MAXSIZE:
                 self.optimisation_maxsize()
             if opt == Optimisation_options.MINSIZE:
@@ -285,9 +286,9 @@ class LP_Solver:
             if opt == Optimisation_options.GREEDY:
                 self.optimisation_greedy()
             if opt == Optimisation_options.MINCOST:
-                self.optimisation_mincost()
+                self.optimisation_mincost(additional_arguments)
             if opt == Optimisation_options.MINSQCOST:
-                self.optimisation_minsqcost()
+                self.optimisation_minsqcost(additional_arguments)
             if opt == Optimisation_options.LOADMAXBAL:
                 self.optimisation_loadmaxbal()
             if opt == Optimisation_options.LOADSUMBAL:
@@ -358,42 +359,49 @@ class LP_Solver:
             self.perform_optimisation(obj, Optimisation_type.MAXIMISE)
 
 
-    def optimisation_mincost(self):
+    def optimisation_mincost(self, cost_multipliers):
         '''Minimises sum of ranks of matched students and adds constraint.'''
 
+        student_multiplier = 1 if len(cost_multipliers) < 1 else cost_multipliers[0]
+        lecturer_multiplier = 0 if len(cost_multipliers) < 2 else cost_multipliers[1]
         self.info_string += '- optimisation: minimising sum of ranks\n'
         obj = LpVariable(
                 "obj_mincost", 
                 lowBound = 0, 
-                upBound = self.model.num_students * len(self.model.rank_lists), 
+                upBound = self.model.num_students * self.model.num_projects * student_multiplier +
+                  self.model.num_students * self.model.num_lecturers * lecturer_multiplier, 
                 cat = "Integer")
-        sum_ranks_exp = LpAffineExpression()
-        for r in range(1, len(self.model.rank_lists) + 1):
-            vars_at_rank = self.get_all_vars_at_rank(r)
-            sum_ranks_exp += lpSum(vars_at_rank) * r
-
-        self.prob += (sum_ranks_exp == obj)
+        sum_costs_exp = LpAffineExpression()
+        for pair in list(chain.from_iterable(self.model.pairs)):
+            sum_costs_exp += pair.lp_var * pair.rank_student * student_multiplier
+            # May not exist in the case if single sided preference lists.
+            if (hasattr(pair, 'rank_lecturer')):
+              sum_costs_exp += pair.lp_var * pair.rank_lecturer * lecturer_multiplier
+        self.prob += (sum_costs_exp == obj)
         self.perform_optimisation(obj, Optimisation_type.MINIMISE)
 
 
-    def optimisation_minsqcost(self):
+    def optimisation_minsqcost(self, cost_multipliers):
         '''Minimises sum of squares of ranks of matched students and adds 
         constraint.'''
 
+        student_multiplier = 1 if len(cost_multipliers) < 1 else cost_multipliers[0]
+        lecturer_multiplier = 0 if len(cost_multipliers) < 2 else cost_multipliers[1]
         self.info_string += '- optimisation: minimising sum of square of ranks\n'
-        up_bound = self.model.num_students * len(self.model.rank_lists)
-        up_bound = up_bound * up_bound
+        up_bound_st = (self.model.num_students * len(self.model.rank_lists))**2 * student_multiplier
+        up_bound_lec = (self.model.num_lecturers * self.model.num_students)**2 * lecturer_multiplier
         obj = LpVariable(
                 "obj_mincost", 
                 lowBound = 0, 
-                upBound = up_bound, 
+                upBound = up_bound_st + up_bound_lec,
                 cat = "Integer")
-        sum_ranks_exp = LpAffineExpression()
-        for r in range(1, len(self.model.rank_lists) + 1):
-            vars_at_rank = self.get_all_vars_at_rank(r)
-            sum_ranks_exp += lpSum(vars_at_rank) * r * r
-
-        self.prob += (sum_ranks_exp == obj)
+        sum_costs_exp = LpAffineExpression()
+        for pair in list(chain.from_iterable(self.model.pairs)):
+            sum_costs_exp += pair.lp_var * pair.rank_student**2 * student_multiplier
+            # May not exist in the case if single sided preference lists.
+            if (hasattr(pair, 'rank_lecturer')):
+              sum_costs_exp += pair.lp_var * pair.rank_lecturer**2 * lecturer_multiplier
+        self.prob += (sum_costs_exp == obj)
         self.perform_optimisation(obj, Optimisation_type.MINIMISE)
 
 
