@@ -7,12 +7,19 @@ import unittest
 class TestModel(unittest.TestCase):
 
     def create_example_model(self):
+        # 2 2 2
+        # 1: 2 1
+        # 2: 2
+        # 1: 1: 2: 1
+        # 2: 0: 2: 2
+        # 1: 0: 1: 2: 1
+        # 2: 0: 1: 2: 1 2
         m = model.Model()
         m.num_students = 2
         m.num_projects = 2
         m.num_lecturers = 2
         m.proj_lower_quotas = [1, 0]
-        m.proj_upper_quotas = [2, 1]
+        m.proj_upper_quotas = [2, 2]
         m.lec_lower_quotas = [0, 0]
         m.lec_targets = [1, 1]
         m.lec_upper_quotas = [2, 2]
@@ -82,13 +89,13 @@ class TestModel(unittest.TestCase):
     def test_get_cost(self):   
         m = self.create_example_model()
         pair_assignments = self.create_example_pair_assignments(m)
-        self.assertEqual(m._get_cost(pair_assignments), 2)
+        self.assertEqual(m._get_cost(pair_assignments), (2, 3))
 
 
     def test_get_cost_sq(self):   
         m = self.create_example_model()
         pair_assignments = self.create_example_pair_assignments(m)
-        self.assertEqual(m._get_cost_sq(pair_assignments), 2)
+        self.assertEqual(m._get_cost_sq(pair_assignments), (2, 5))
 
 
     def test_get_degree(self):   

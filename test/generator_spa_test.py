@@ -47,4 +47,4 @@ class TestSPAGenerator(unittest.TestCase):
             '2: 0: 1: 2: (1 3 2)\n\n'
     		'info')
 
-    	self.assertEquals(instance, instance_test)
+    	self.assertEqual(instance, instance_test)

@@ -360,7 +360,7 @@ class LP_Solver:
 
 
     def optimisation_mincost(self, cost_multipliers):
-        '''Minimises sum of ranks of matched students and adds constraint.'''
+        '''Minimises sum of ranks and adds constraint.'''
 
         student_multiplier = 1 if len(cost_multipliers) < 1 else cost_multipliers[0]
         lecturer_multiplier = 0 if len(cost_multipliers) < 2 else cost_multipliers[1]
@@ -368,8 +368,9 @@ class LP_Solver:
         obj = LpVariable(
                 "obj_mincost", 
                 lowBound = 0, 
-                upBound = self.model.num_students * self.model.num_projects * student_multiplier +
-                  self.model.num_students * self.model.num_lecturers * lecturer_multiplier, 
+                upBound = self.model.num_students * self.model.num_projects *
+                  student_multiplier + self.model.num_students *
+                  self.model.num_lecturers * lecturer_multiplier,
                 cat = "Integer")
         sum_costs_exp = LpAffineExpression()
         for pair in list(chain.from_iterable(self.model.pairs)):
@@ -382,8 +383,7 @@ class LP_Solver:
 
 
     def optimisation_minsqcost(self, cost_multipliers):
-        '''Minimises sum of squares of ranks of matched students and adds 
-        constraint.'''
+        '''Minimises sum of squares of ranks and adds constraint.'''
 
         student_multiplier = 1 if len(cost_multipliers) < 1 else cost_multipliers[0]
         lecturer_multiplier = 0 if len(cost_multipliers) < 2 else cost_multipliers[1]

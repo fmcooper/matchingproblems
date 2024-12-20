@@ -43,4 +43,4 @@ class TestHaSmHrGenerator(unittest.TestCase):
     		'3: 0: 1: 2\n'
     		'4: 0: 1: 1 3\n\n'
     		'info')
-    	self.assertEquals(instance, instance_test)
+    	self.assertEqual(instance, instance_test)

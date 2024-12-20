@@ -186,24 +186,26 @@ class Model:
         Returns:
           Pair variable information.
         """
-        lp_vars_string = 'Main lp decision variables:\n'
-        for pair_row in self.pairs:
-            for pair in pair_row:
-                if (pair.lp_var.varValue > 0.9):
+        if hasattr(self,'pairs'):
+            lp_vars_string = 'Main lp decision variables:\n'
+            for pair_row in self.pairs:
+                for pair in pair_row:
+                    if (pair.lp_var.varValue > 0.9):
+                        lp_vars_string += '1 '
+                    else:
+                        lp_vars_string += '0 '
+                lp_vars_string += '\n'
+            lp_vars_string += '\n'
+
+        if hasattr(self,'project_closures'):
+            lp_vars_string += 'Project closure variables:\n'
+            for var in self.project_closures:
+                if (var.varValue > 0.9):
                     lp_vars_string += '1 '
                 else:
                     lp_vars_string += '0 '
+                
             lp_vars_string += '\n'
-        lp_vars_string += '\n'
-
-        lp_vars_string += 'Project closure variables:\n'
-        for var in self.project_closures:
-            if (var.varValue > 0.9):
-                lp_vars_string += '1 '
-            else:
-                lp_vars_string += '0 '
-            
-        lp_vars_string += '\n'
 
         model_information = 'Model instance information:\n'
         model_information += self._pairs_string(self.pairs)
@@ -390,35 +392,41 @@ class Model:
 
 
     def _get_cost(self, pair_assignments):
-        """Returns the sum of student ranks for the matching.
+        """Returns the sum of student and lecturer ranks for the matching.
 
         Args:
           pair_assignments: List of student-project matched Pairs.
 
         Returns:
-          The sum of student ranks for the matching.
+          The sum of student and lecturer ranks for the matching.
         """
 
-        cost = 0
+        cost_st = 0
+        cost_lec = 0
         for pair in pair_assignments:
-            cost += pair.rank_student
-        return cost
+            cost_st += pair.rank_student
+            if (hasattr(pair, 'rank_lecturer')):
+                cost_lec += pair.rank_lecturer
+        return cost_st, cost_lec
 
 
     def _get_cost_sq(self, pair_assignments):
-        """Returns the sum of squares of student ranks for the matching.
+        """Returns the sum of squares of student and lecturer ranks.
 
         Args:
           pair_assignments: List of student-project matched Pairs.
 
         Returns:
-          The sum of squares of student ranks for the matching.
+          The sum of squares of student and lecturer ranks for the matching.
         """
 
-        cost_sq = 0
+        cost_sq_st = 0
+        cost_sq_lec = 0
         for pair in pair_assignments:
-            cost_sq += pair.rank_student * pair.rank_student
-        return cost_sq
+            cost_sq_st += pair.rank_student * pair.rank_student
+            if (hasattr(pair, 'rank_lecturer')):
+                cost_sq_lec += pair.rank_lecturer * pair.rank_lecturer
+        return cost_sq_st, cost_sq_lec
 
 
     def _get_degree(self, pair_assignments):
@@ -836,6 +844,7 @@ class Pair:
 
     def __str__(self):
         """String representation of this Pair."""
+        lec_rank = ' rl' + str(self.rank_lecturer) if (hasattr(self, 'rank_lecturer'))  else ''
         return ('(s' + str(self.studentID) + ' p' + str(self.projectID) + 
             ' rs' + str(self.rank_student) + ' l' + str(self.lecturerID) + 
-            ' rl' + str(self.rank_lecturer) + ')')
+            lec_rank + ')')
