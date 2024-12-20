@@ -146,6 +146,11 @@ Argument | Meaning
 `-lsb x, -loadsumbalanced x` | Minimises the sum of absolute differences between lecturer occupancies and targets at the given optimisation position.
 `-bf, -bruteforce` | Solve using the brute force method.
 
+Experimental argument | Meaning
+--- | ---
+`-mincost x y z, -minimisecost x y z` | Minimise cost at the given optimisation position x. Multiply student costs by y prior to optimisation (default 1). Multiply lecturer costs by z prior to optimisation (default 0).
+`-minsqcost x y z, -minimisesquaredcost x y z` | Minimises sum of squares of costs at the given optimisation position x. Multiply student costs by y prior to optimisation (default 1). Multiply lecturer costs by z prior to optimisation (default 0).
+
 
 Two examples of calls to run_solver.py are as follows:
 ```
