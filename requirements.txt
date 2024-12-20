@@ -1,5 +1,6 @@
+setuptools>=75.6.0
 amply==0.1.6
 docutils==0.20.1
-numpy==1.24.4
-PuLP==2.7.0
-pyparsing==3.1.1
+numpy==1.26.4
+PuLP==2.9.0
+pyparsing==3.1.4
