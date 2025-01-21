@@ -297,6 +297,9 @@ class Model:
         results += ('matching: ' + self._get_matching_string(pair_assignments) +
             '\n')
         if short_or_long == Output_type.LONG:
+            results += '# the number of assigned students\n'
+        results += ('size: ' + str(self._get_matching_size(pair_assignments)) + '\n')
+        if short_or_long == Output_type.LONG:
             results += '# the sum of ranks of matched students\n'
         results += 'cost: ' + str(self._get_cost(pair_assignments)) + '\n'
         if short_or_long == Output_type.LONG:
@@ -394,6 +397,22 @@ class Model:
         for pair in pair_assignments:
             matching[pair.student_index] = str(pair.projectID)
         return ' '.join(matching)
+
+
+    def _get_matching_size(self, pair_assignments):
+        """Returns the size of the matching.
+
+        Args:
+          pair_assignments: List of student-project matched Pairs.
+
+        Returns:
+          The size of the matching.
+        """
+
+        matching = ['0'] * self.num_students
+        for pair in pair_assignments:
+            matching[pair.student_index] = str(pair.projectID)
+        return len(matching) - matching.count('0')
 
 
     def _get_cost(self, pair_assignments):
