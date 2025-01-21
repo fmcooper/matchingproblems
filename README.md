@@ -173,4 +173,4 @@ To see more detailed results for an optimised (not brute force) run, use `print(
 
 Unit tests may be run by executing the `test.sh` script in this [git repository](https://github.com/fmcooper/matchingproblems).
 
-Correctness testing which compared output from the LP Solver and brute force programs was conducted on some optimisations. Results for this testing can be seen at this [zenodo repository](10.5281/zenodo.4065148).
+Correctness testing which compared output from the LP Solver and brute force programs was conducted on some optimisations. Results for this testing can be seen at this [zenodo repository](https://zenodo.org/records/4065149).
