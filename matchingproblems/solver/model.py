@@ -135,11 +135,15 @@ class Model:
                     extra_constraints[Extra_constraints.STAB])
 
         # set up the load balancing variables if required
-        if any(x in optimisation_options[0] for x in [
-            Optimisation_options.LOADMAXBAL, 
-            Optimisation_options.LOADSUMBAL,
-            Optimisation_options.MINCOSTLSB]):
+        load_balancing_variables_needed = False
+        for x in optimisation_options:
+            if x[0] in [Optimisation_options.LOADMAXBAL, 
+                        Optimisation_options.LOADSUMBAL,
+                        Optimisation_options.MINCOSTLSB]:
+                load_balancing_variables_needed = True
+                break
 
+        if load_balancing_variables_needed:
             self.lec_overload = []
             self.lec_underload = []
             self.abs_lec_diff = []

@@ -107,11 +107,15 @@ class LP_Solver:
             self.stability_constraints()
 
         # Add load balancing constraints if required.
-        if any(x in optimisation_options[0] for x in [
-            Optimisation_options.LOADMAXBAL, 
-            Optimisation_options.LOADSUMBAL,
-            Optimisation_options.MINCOSTLSB]):
-            print("adding lsb constraints")
+        load_balancing_constraints_needed = False
+        for x in optimisation_options:
+            if x[0] in [Optimisation_options.LOADMAXBAL, 
+                        Optimisation_options.LOADSUMBAL,
+                        Optimisation_options.MINCOSTLSB]:
+                load_balancing_constraints_needed = True
+                break
+
+        if load_balancing_constraints_needed:
             self.loadbalancing_constraints()
 
 
